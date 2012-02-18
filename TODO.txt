@@ -1,0 +1,2 @@
+Turn GrayBackground640x480.png into a grid
+  -The Grid should have 40 x 40 squares
