@@ -1,0 +1,8 @@
+A Level Editor for Mr. Yarborough's RPG
+
+Compiling instructions
+  -Install Ruby Gems - http://rubygems.org/
+  -Install Gosu - type (gem install gosu) without parenthesis in ruby cmd
+  -Navigate to Main.rb and type (ruby main.rb) without parenthises in ruby cmd 
+
+Or ask me for a .exe file
