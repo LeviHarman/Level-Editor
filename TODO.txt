@@ -1,2 +1,3 @@
 Turn GrayBackground640x480.png into a grid
   -The Grid should have 40 x 40 squares
+  -use buttons to select which tile will be placed and where. 
