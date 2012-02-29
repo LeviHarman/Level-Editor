@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'gosu'
 require './tileclasses.rb'
+require './tileclasses.rb'
 include Gosu
 
 module ZOrder
@@ -14,8 +15,7 @@ class LevelEditorWindow < Gosu::Window
     super(800, 640, false)
     self.caption = "Level Editor."
     @background_image = Gosu::Image.new(self, "media/GrayBackground640x480.png", true)
-    @grass_tile = GrassTile.new(self)
-    @grasses = Array.new
+    @grass = Gosu::Image.new(self, "media/grass.png", true)
     @cursor = Gosu::Image.new(self, "media/Cursor.png", false)
     @grass_button = GrassButton.new(self)
     @grass_button.warp(760, 0)
@@ -26,27 +26,7 @@ class LevelEditorWindow < Gosu::Window
     @end_button = EndButton.new(self)
     @end_button.warp(640, 0)
   end
-
-  def update
-    if button_down? Gosu::MsLeft and mouse_x >= 0 and mouse_x <= 640 and mouse_y >= 0 and mouse_y <= 480 then
-      @grasses.push(GrassTile.new(self))
-      @grasses[-1].tile_position(mouse_x, mouse_y)
-      @grasses[-1].draw
-    end
-  end
   
-def button_down(id)
-  if id == Gosu::MsLeft then
-    if @dirt_button.under_point?(mouse_x, mouse_y) then
-      @grass_button.warp(500, 0)
-    elsif @grass_button.under_point?(mouse_x, mouse_y) then
-      @grass_button.warp(760, 0)
-    elsif @end_button.under_point?(mouse_x, mouse_y) then
-      Process.exit
-    end
-  end
-end
-
   def draw
     @background_image.draw(0,0, ZOrder::Background)
     @cursor.draw(mouse_x, mouse_y, ZOrder::Mouse)
@@ -54,8 +34,21 @@ end
     @dirt_button.draw
     @water_button.draw
     @end_button.draw
-    @button_down
-    @grasses.each { |grass| grass.draw }
+    @grass.draw(0,0, ZOrder::Stars)
+  end
+    
+  def button_down(id)
+    if id == Gosu::MsLeft then
+      if @dirt_button.under_point?(mouse_x, mouse_y) then
+        @grass_button.warp(500, 0)
+      elsif @grass_button.under_point?(mouse_x, mouse_y) then
+        @grass_button.warp(760, 0)
+      elsif @end_button.under_point?(mouse_x, mouse_y) then
+        Process.exit
+      elsif mouse_x >= 0 and mouse_x <= 39 and mouse_y >= 0 and mouse_y <= 39
+        @grass.draw(0,0, ZOrder::Stars)
+      end
+    end
   end
 end
 LevelEditorWindow.new.show
