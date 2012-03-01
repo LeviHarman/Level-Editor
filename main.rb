@@ -57,10 +57,8 @@ class LevelEditorWindow < Gosu::Window
         @dirts.push(DirtTile.new(self))
         @dirts[-1].tile_position(mouse_x, mouse_y)
       when 'water_selected'
-        unless @waters[0..-1].underpoint
           @waters.push(WaterTile.new(self))
           @waters[-1].tile_position(mouse_x, mouse_y)
-        end
       when 'eraser_selected'
         @waters.pop
         @dirts.pop
