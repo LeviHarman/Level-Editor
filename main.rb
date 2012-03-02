@@ -57,12 +57,12 @@ class LevelEditorWindow < Gosu::Window
         @dirts.push(DirtTile.new(self))
         @dirts[-1].tile_position(mouse_x, mouse_y)
       when 'water_selected'
-          @waters.push(WaterTile.new(self))
-          @waters[-1].tile_position(mouse_x, mouse_y)
+        @waters.push(WaterTile.new(self))
+        @waters[-1].tile_position(mouse_x, mouse_y)
       when 'eraser_selected'
-        @waters.pop
-        @dirts.pop
-        @grasses.pop
+        @waters.each{|tile| if tile.under_point?(mouse_x,mouse_y) then @waters.delete(tile) end}
+        @dirts.each{|tile| if tile.under_point?(mouse_x,mouse_y) then @dirts.delete(tile) end}
+        @grasses.each{|tile| if tile.under_point?(mouse_x,mouse_y) then @grasses.delete(tile) end}
       end
     end
   end
