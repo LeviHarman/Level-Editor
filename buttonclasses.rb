@@ -46,9 +46,16 @@ class EndButton < Button
   end
 end
   
-  class EraserButton < Button
+class EraserButton < Button
   def initialize(window)
     super(window, x, y, width, height)
     @image = Gosu::Image.new(window, "media/erase.png", false)
+  end
+end
+
+class UndoButton < Button
+  def initialize(window)
+    super(window, x, y, width, height)
+    @image = Gosu::Image.new(window, "media/undo.png", false)
   end
 end

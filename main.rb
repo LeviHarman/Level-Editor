@@ -23,16 +23,16 @@ class LevelEditorWindow < Gosu::Window
     @dirt_button = DirtButton.new(self)
     @end_button = EndButton.new(self)
     @eraser_button = EraserButton.new(self) 
+    @undo_button = UndoButton.new(self)
 
     @grass_button.warp(760, 0)
     @water_button.warp(680, 0)
     @dirt_button.warp(720, 0)
     @end_button.warp(640, 0)
     @eraser_button.warp(760, 40)
+    @undo_button.warp(720, 40)
 
-    @grasses = Array.new
-    @dirts = Array.new
-    @waters = Array.new
+    @tiles = Array.new
   end
 
   def update
@@ -42,27 +42,33 @@ class LevelEditorWindow < Gosu::Window
       @selected_tile = 'dirt_selected'
     elsif button_down? Gosu::MsLeft and @water_button.under_point?(mouse_x, mouse_y)
       @selected_tile = 'water_selected'
-    elsif button_down? Gosu::MsLeft and @water_button.under_point?(mouse_x, mouse_y)
-      @selected_tile = 'water_selected'
     elsif button_down? Gosu::MsLeft and @eraser_button.under_point?(mouse_x, mouse_y)
       @selected_tile = 'eraser_selected'
+    elsif button_down? Gosu::MsLeft and @undo_button.under_point?(mouse_x, mouse_y)
+      @selected_tile = 'undo_selected'
     end
 
     if button_down? Gosu::MsLeft and mouse_x >= 0 and mouse_x <= 640 and mouse_y >= 0 and mouse_y <= 480
       case @selected_tile
       when 'grass_selected'
-        @grasses.push(GrassTile.new(self))
-        @grasses[-1].tile_position(mouse_x, mouse_y)
+        if @tiles.each{|tile| if tile.under_point?(mouse_x,mouse_y) then return false end}
+          @tiles.push(GrassTile.new(self))
+          @tiles[-1].tile_position(mouse_x, mouse_y)
+        end
       when 'dirt_selected'
-        @dirts.push(DirtTile.new(self))
-        @dirts[-1].tile_position(mouse_x, mouse_y)
+        if @tiles.each{|tile| if tile.under_point?(mouse_x,mouse_y) then return false end}
+          @tiles.push(DirtTile.new(self))
+          @tiles[-1].tile_position(mouse_x, mouse_y)
+        end
       when 'water_selected'
-        @waters.push(WaterTile.new(self))
-        @waters[-1].tile_position(mouse_x, mouse_y)
+        if @tiles.each{|tile| if tile.under_point?(mouse_x,mouse_y) then return false end}
+          @tiles.push(WaterTile.new(self))
+          @tiles[-1].tile_position(mouse_x, mouse_y)
+        end
       when 'eraser_selected'
-        @waters.each{|tile| if tile.under_point?(mouse_x,mouse_y) then @waters.delete(tile) end}
-        @dirts.each{|tile| if tile.under_point?(mouse_x,mouse_y) then @dirts.delete(tile) end}
-        @grasses.each{|tile| if tile.under_point?(mouse_x,mouse_y) then @grasses.delete(tile) end}
+        @tiles.each{|tile| if tile.under_point?(mouse_x,mouse_y) then @tiles.delete(tile) end}
+      when 'undo_selected'
+        @tiles.pop
       end
     end
   end
@@ -84,11 +90,10 @@ class LevelEditorWindow < Gosu::Window
     @water_button.draw
     @end_button.draw
     @eraser_button.draw
-
+    @undo_button.draw
+    
     @button_down
-    @grasses.each { |grass| grass.draw }
-    @dirts.each { |dirt| dirt.draw }
-    @waters.each { |water| water.draw }
+    @tiles.each { |tile| tile.draw }
   end
 end
 LevelEditorWindow.new.show
