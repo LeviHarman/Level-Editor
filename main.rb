@@ -16,7 +16,7 @@ class LevelEditorWindow < Gosu::Window
     self.caption = "Level Editor."
 
     @background_image = Gosu::Image.new(self, "media/GrayBackground640x480.png", true)
-    @cursor = Gosu::Image.new(self, "media/Cursor.png", false)
+    @cursor = Gosu::Image.new(self, "media/carrotcursor.png", false)
 
     @grass_button = GrassButton.new(self)
     @water_button = WaterButton.new(self)
