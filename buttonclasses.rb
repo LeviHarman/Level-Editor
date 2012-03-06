@@ -32,6 +32,20 @@ class DirtButton < Button
   end
 end
 
+class TilledDirtButton < Button
+  def initialize(window)
+    super(window, x, y, width, height)
+    @image = Gosu::Image.new(window, "media/tilled_dirt.png", false)
+  end
+end
+
+class WetDirtButton < Button
+  def initialize(window)
+    super(window, x, y, width, height)
+    @image = Gosu::Image.new(window, "media/wet_dirt.png", false)
+  end
+end
+
 class WaterButton < Button
   def initialize(window)
     super(window, x, y, width, height)

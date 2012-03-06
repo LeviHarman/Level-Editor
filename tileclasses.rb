@@ -42,3 +42,17 @@ class DirtTile < Tile
     @image = Gosu::Image.new(window, "media/dirt.png", false)
   end
 end
+
+class TilledDirtTile < Tile
+  def initialize(window)
+    super(window, x, y, width, height)
+    @image = Gosu::Image.new(window, "media/tilled_dirt.png", false)
+  end
+end
+
+class WetDirtTile < Tile
+  def initialize(window)
+    super(window, x, y, width, height)
+    @image = Gosu::Image.new(window, "media/wet_dirt.png", false)
+  end
+end
